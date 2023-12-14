@@ -1,5 +1,5 @@
 
-function coinChangeII(coins, amount) {
+function coinChangeII(amount, coins) {
     const memo = [1, ...Array(amount).fill(0)];
     for(const c of coins)
         for(let a = c; a <= amount; a++)
