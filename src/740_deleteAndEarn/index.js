@@ -22,7 +22,7 @@ function deleteAndEarn(nums) {
         {n: '0', price: 0, sum: 0, max_sum: 0}
     ].concat(Object.entries(ns)
         .map( ([n, cnt]) => ({n, price: n*cnt}) )
-       .sort( (a, b) => a.n - b.n )
+        .sort( (a, b) => a.n - b.n )
     )
 
     console.log("na = ", na)
