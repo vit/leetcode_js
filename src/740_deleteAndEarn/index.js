@@ -1,45 +1,26 @@
 
 function deleteAndEarn(nums) {
-    const ns = {};
+    const nums_map = {};
 
-    console.log("nums = ", nums)
+    for(const n of [0, ...nums])
+        nums_map[n] = n in nums_map ? nums_map[n] + 1 : 1;
 
-    // for(const n of [0, ...nums])
-    //     ns[n] = n in ns ? ns[n] + 1 : 1;
-
-    for(const n of nums)
-        ns[n] = n in ns ? ns[n] + 1 : 1;
-
-
-    console.log("ns = ", ns)
-
-    // const na = Object.entries(ns)
-    //     .map( ([n, cnt]) => ({n, price: n*cnt}) )
-    //     .sort( (a, b) => a.n - b.n )
-
-    const na = [
-        {n: '0', price: 0, sum: 0, max_sum: 0},
-        {n: '0', price: 0, sum: 0, max_sum: 0}
-    ].concat(Object.entries(ns)
+    const nums_arr = Object.entries(nums_map)
         .map( ([n, cnt]) => ({n, price: n*cnt}) )
         .sort( (a, b) => a.n - b.n )
-    )
+    ;
 
-    console.log("na = ", na)
+    let prev_max = current_max = 0;
 
-    for(let i=2; i < na.length; i++) {
-        const base_index = 
-            na[i].n - na[i-1].n == 1 ?
-            i-2 :
-            i-1
-        na[i].sum = na[base_index].max_sum + na[i].price
-        na[i].max_sum = Math.max(na[i-1].max_sum, na[i].sum)
+    for(let i=1; i < nums_arr.length; i++) {
+        const base_max = nums_arr[i].n - nums_arr[i-1].n == 1 ? prev_max : current_max;
+        const current_sum = base_max + nums_arr[i].price
+
+        const new_max = Math.max(current_max, current_sum);
+        [prev_max, current_max] = [current_max, new_max];
     }
 
-    console.log("na = ", na)
-
-    return na[na.length-1].max_sum
-
+    return current_max;
 }
 
 module.exports = deleteAndEarn;
