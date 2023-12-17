@@ -2,6 +2,7 @@
 function deleteAndEarn(nums) {
 
     const nums_weights_map = {};
+
     for(const num of [0, ...nums]) {
         if( ! (num in nums_weights_map) )
             nums_weights_map[num] = 0;
@@ -17,17 +18,23 @@ function deleteAndEarn(nums) {
         }) )
     ;
 
-    let [prev_max, current_max] = [0, 0];
-    for(let i=1; i < nums_weights_arr.length; i++) {
-        const new_max = 
-        nums_weights_arr[i].num - nums_weights_arr[i-1].num != 1
-            ? current_max + nums_weights_arr[i].weight
-            : Math.max(current_max, prev_max + nums_weights_arr[i].weight);
+    let [prev_max, curr_max] = [0, 0];
+    let prev_num = 0;
 
-        [prev_max, current_max] = [current_max, new_max];
+    for(const elm of nums_weights_arr) {
+        const [curr_num, curr_weight] = [elm.num, elm.weight];
+
+        const new_max = 
+            curr_num - prev_num == 1
+                ? Math.max(curr_max, prev_max + curr_weight)
+                : curr_max + curr_weight
+        ;
+
+        prev_num = curr_num;
+        [prev_max, curr_max] = [curr_max, new_max];
     }
 
-    return current_max;
+    return curr_max;
 }
 
 module.exports = deleteAndEarn;
