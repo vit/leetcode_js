@@ -57,7 +57,7 @@ Let's make sure that the elements of the set are sorted (in ascending order, for
 weight:    4    9    8    6
 ```
 
-It's easier to check the distance between neighbors and tell if they must exclude each other.
+It's easier to check the distance between neighbours and tell if they must exclude each other.
 
 
 ## The right question (third formulation of the problem) | Magic begins here
