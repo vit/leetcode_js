@@ -45,7 +45,7 @@ Important constraint:
 
 * The distance between any two elements of the required subset can't be equal to 1: |num_i-num_j| <> 1.
 
-__Remark:__ It's clear that without this constraint the required subset would be equal to the whole set. The maximal sum would be a sum of all existing weights (9 + 4 + 8 + 6 = 27).
+__Remark:__ It's clear that without this constraint the required subset would be equal to the whole set. The maximal sum would be a sum of all existing weights (4 + 9 + 8 + 6 = 27).
 
 
 ## More intuition (#2)
