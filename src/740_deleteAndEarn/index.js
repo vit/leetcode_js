@@ -3,9 +3,8 @@ function deleteAndEarn(nums) {
 
     const nums_weights_map = {};
 
-    for(const num of [0, ...nums]) {
-        if( ! (num in nums_weights_map) )
-            nums_weights_map[num] = 0;
+    for(const num of nums) {
+        nums_weights_map[num] = nums_weights_map[num] || 0;
         nums_weights_map[num] += num;
     }
 
