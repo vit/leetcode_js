@@ -197,7 +197,9 @@ weight:    4    9    8    6
 ```
 
 
+## The answer
 
+The maximal possible sum for the sequence is __18__.
 
 
 
