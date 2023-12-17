@@ -1,22 +1,29 @@
 
 function deleteAndEarn(nums) {
-    const nums_map = {};
 
-    for(const n of [0, ...nums])
-        nums_map[n] = n in nums_map ? nums_map[n] + 1 : 1;
+    const nums_weights_map = {};
+    for(const num of [0, ...nums]) {
+        if( ! (num in nums_weights_map) )
+            nums_weights_map[num] = 0;
+        nums_weights_map[num] += num;
+    }
 
-    const nums_arr = Object.entries(nums_map)
-        .map( ([n, cnt]) => ({n, price: n*cnt}) )
-        .sort( (a, b) => a.n - b.n )
+    const nums_weights_arr = Object.keys(nums_weights_map)
+        .map(Number)
+        .sort( (a, b) => a - b )
+        .map( num => ({
+            num,
+            weight: nums_weights_map[num]
+        }) )
     ;
 
-    let prev_max = current_max = 0;
+    let [prev_max, current_max] = [0, 0];
+    for(let i=1; i < nums_weights_arr.length; i++) {
+        const new_max = 
+        nums_weights_arr[i].num - nums_weights_arr[i-1].num != 1
+        ? current_max + nums_weights_arr[i].weight
+            : Math.max(current_max, prev_max + nums_weights_arr[i].weight);
 
-    for(let i=1; i < nums_arr.length; i++) {
-        const base_max = nums_arr[i].n - nums_arr[i-1].n == 1 ? prev_max : current_max;
-        const current_sum = base_max + nums_arr[i].price
-
-        const new_max = Math.max(current_max, current_sum);
         [prev_max, current_max] = [current_max, new_max];
     }
 

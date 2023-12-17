@@ -16,11 +16,17 @@ test('[2,2,3,3,3,4] gives 9', () => {
 
 // Extra tests ...
 
-  test('[1,1,1,2,4,5,5,5,6] gives 18', () => {
-    expect(
-      deleteAndEarn([1,1,1,2,4,5,5,5,6])
-    ).toBe(18);
-  });
-  
-  
+test('[1,1,1,2,4,5,5,5,6] gives 18', () => {
+  expect(
+    deleteAndEarn([1,1,1,2,4,5,5,5,6])
+  ).toBe(18);
+});
+
+test('[8,10,4,9,1,3,5,9,4,10] gives 37', () => {
+  expect(
+    deleteAndEarn([8,10,4,9,1,3,5,9,4,10])
+  ).toBe(37);
+});
+
+
 
