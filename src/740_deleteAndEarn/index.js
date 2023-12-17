@@ -21,7 +21,7 @@ function deleteAndEarn(nums) {
     for(let i=1; i < nums_weights_arr.length; i++) {
         const new_max = 
         nums_weights_arr[i].num - nums_weights_arr[i-1].num != 1
-        ? current_max + nums_weights_arr[i].weight
+            ? current_max + nums_weights_arr[i].weight
             : Math.max(current_max, prev_max + nums_weights_arr[i].weight);
 
         [prev_max, current_max] = [current_max, new_max];
