@@ -23,7 +23,7 @@ num:  3  3  2  2  3  4  4  6
 
 ## Some intuition (#1)
 
-* When we deside to pick the number 3 (and thereafter delete all 2's and 4's), there are no reasons left not to take all other occurrences of 3.
+* When we decide to pick the number 3 (and thereafter delete all 2's and 4's), there are no reasons left not to take all other occurrences of 3.
 
 So we __must__ take the sum of all 3's __or__ do not take 3 at all.
 
@@ -187,7 +187,7 @@ weight:    4    9    8
 
 
 ```js
-max_4 = max_3 + 6 = 12 + 6 == 18
+max_4 = max_3 + 6 = 12 + 6 = 18
 ```
 
 ```js
