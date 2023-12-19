@@ -186,6 +186,17 @@ weight:     4     9     8     6
 The maximal possible sum for the whole sequence is __18__.
 
 
+## The common recurrence relation
+
+```
+Have collision?
+    yes:
+        new_max = Max(earlier_max + weight, max)
+    no:
+        new_max = max + weight
+```
+
+
 ## The code
 
 
