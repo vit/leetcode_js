@@ -68,7 +68,7 @@ weight:     4     9     8     6
 __Remark:__ It's obvious that the elements can __only confront with their immediate neighbours__, if the distance between them is too short.
 
 
-## The right question (final formulation of the problem)
+## Right question (final formulation of the problem)
 
 The right question we have to ask is:
 
@@ -181,12 +181,12 @@ weight:     4     9     8     6
    max:      4     9     12    18
 ```
 
-## The answer
+## Answer
 
 The maximal possible sum for the whole sequence is __18__.
 
 
-## The common recurrence relation
+## Common recurrence relation
 
 ```
 Have collision?
@@ -197,7 +197,7 @@ Have collision?
 ```
 
 
-## The code
+## Code
 
 
 ```js
