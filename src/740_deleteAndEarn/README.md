@@ -5,7 +5,7 @@
 
 ## About Dynamic Programming
 
-The (simplified) idea of the __Dynamic Programming__ method: in order to get the __optimal__ answer for the __whole sequence__ we have to know the optimal answer about __a bit lesser subsequence__ of it.
+The main idea of the __Dynamic Programming__ method: in order to get the __optimal__ answer for the __whole path__ we have to know the optimal answer about __a bit lesser subpath__ of it.
 
 Our job is to transform the original problem formulation to the __right question__.
 
@@ -36,19 +36,12 @@ So we __must__ take the sum of all 3's __or__ do not take 3 at all.
 
 Instead of the original list we can use pairs of unique numbers and sums of all their occurrences (let's call them _weights_).
 
-```js
-   num:    2    3    4    6
- times:    2    3    2    1
-    *    2*2  3*3  2*4  1*6
-weight:    4    9    8    6
-```
-
 Nums and weights is everything we need to know.
-The first -- to check collisions between them, the second -- to sum them up.
+First -- to check collisions between them, second -- to sum them up.
 
 ```js
-   num:    2    3    4    6
-weight:    4    9    8    6
+   num:     3     2     4     6
+weight:     9     4     8     6
 ```
 
 
@@ -68,16 +61,14 @@ __Remark:__ It's clear that without this constraint the required subset would be
 Let's make sure that the elements of the set (sequence) are __ordered__.
 
 ```js
-   num:    2    3    4    6
-weight:    4    9    8    6
+   num:     2     3     4     6
+weight:     4     9     8     6
 ```
 
 __Remark:__ It's obvious that the elements can __only confront with their immediate neighbours__, if the distance between them is too short.
 
 
 ## The right question (final formulation of the problem)
-
-This is the part where the real magic happens.
 
 The right question we have to ask is:
 
@@ -132,7 +123,7 @@ max_3v2 = max_2             // with number 3, skip 4
 
 Which do we have to use? -- The bigger one.
 
-__The answer:__ We don't know yet, but if we knew the ___maximal possible sum for the left subsequences of one and two elements___ (max_2 and max_1), we could calculate max_3 with the formula below.
+__The answer:__ We don't know yet, but if we knew the ___maximal possible sums for the left subsequences of one and two elements___ (max_2 and max_1), we could calculate max_3 with the formula below.
 
 ```js
 max_3 = Max(max_1 + weight_3, max_2)
@@ -174,14 +165,14 @@ max_1 = weight_1
 ```js
    num:     2     3     4     6
 weight:     4     9     8     6
-   max:
+   max:      ?     ?     ?     ?
 ```
 
 ```js
-max_1 = weight_1 = 4
-max_2 = Max(weight_2, max_1) = Max(9, 4) = 9
+max_1 =             weight_1                      = 4
+max_2 = Max(        weight_2, max_1) = Max(9, 4)  = 9
 max_3 = Max(max_1 + weight_3, max_2) = Max(12, 9) = 12
-max_4 = max_3 + weight_4 = 12 + 6 = 18
+max_4 =     max_3 + weight_4         = 12 + 6     = 18
 ```
 
 ```js
@@ -192,7 +183,7 @@ weight:     4     9     8     6
 
 ## The answer
 
-The maximal possible sum for the sequence is __18__.
+The maximal possible sum for the whole sequence is __18__.
 
 
 ## The code
@@ -213,14 +204,13 @@ function deleteAndEarn(nums) {
     // nums_weights_map = { '2': 4, '3': 9, '4': 8, '6': 6 }
 
 
-    // Make list of pairs
+    // Make ordered list of pairs
     const nums_weights_arr = Object.keys(nums_weights_map)
         .sort( (a, b) => a - b )
         .map( num => ({
             num,
             weight: nums_weights_map[num],
         }) );
-
     // nums_weights_arr = [
     //  { num: '2', weight: 4 },
     //  { num: '3', weight: 9 },
@@ -229,8 +219,13 @@ function deleteAndEarn(nums) {
     // ]
 
 
+    // We implicitly prepend the sequence
+    // with few zero values
     let [prev_max, curr_max] = [0, 0];
     let prev_num = 0;
+    // We don't use the array to store all previous
+    // max's, because we only need two of them.
+    // And only one previous num for condition check.
 
     for(const { num, weight } of nums_weights_arr) {
         const new_max = (num - prev_num == 1) // Have collision?
@@ -240,8 +235,12 @@ function deleteAndEarn(nums) {
         prev_num = num;
         [prev_max, curr_max] = [curr_max, new_max];
     }
+    // prev_num:   0 -> 2 -> 3 -> 4  -> 6
+    // curr_max:   0 -> 4 -> 9 -> 12 -> 18
+    // prev_max:   0 -> 0 -> 4 -> 9  -> 12
 
-    return curr_max;
+
+    return curr_max; // 18
 }
 ```
 
