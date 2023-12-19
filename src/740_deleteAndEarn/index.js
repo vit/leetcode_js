@@ -8,6 +8,7 @@ function deleteAndEarn(nums) {
         nums_weights_map[num] += num;
     }
 
+
     const nums_weights_arr = Object.keys(nums_weights_map)
         // .map(Number)
         .sort( (a, b) => a - b )
@@ -15,6 +16,7 @@ function deleteAndEarn(nums) {
             num,
             weight: nums_weights_map[num],
         }) );
+
 
     let [prev_max, curr_max] = [0, 0];
     let prev_num = 0;

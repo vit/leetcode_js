@@ -5,7 +5,7 @@
 
 ## About Dynamic Programming
 
-The main idea of the __Dynamic Programming__ method: in order to get the __optimal__ answer for the __whole set__ we have to know the optimal answer about __a bit lesser subset__ of it.
+The (simplified) idea of the __Dynamic Programming__ method: in order to get the __optimal__ answer for the __whole sequence__ we have to know the optimal answer about __a bit lesser subsequence__ of it.
 
 Our job is to transform the original problem formulation to the __right question__.
 
@@ -21,7 +21,7 @@ From leetcode.com:
 > Return the maximum number of points you can earn by applying the above operation some number of times.
 
 
-## Input data example
+## Example of input data
 
 ```js
 num:  3  3  2  2  3  4  4  6
@@ -44,6 +44,7 @@ weight:    4    9    8    6
 ```
 
 Nums and weights is everything we need to know.
+The first -- to check collisions between them, the second -- to sum them up.
 
 ```js
    num:    2    3    4    6
@@ -194,20 +195,25 @@ weight:     4     9     8     6
 The maximal possible sum for the sequence is __18__.
 
 
-
 ## The code
 
 
 ```js
 function deleteAndEarn(nums) {
+    // nums = [3, 3, 2, 2, 3, 4, 4, 6]
 
+
+    // Calculate weights
     const nums_weights_map = {};
 
     for(const num of nums) {
         nums_weights_map[num] = nums_weights_map[num] || 0;
         nums_weights_map[num] += num;
     }
+    // nums_weights_map = { '2': 4, '3': 9, '4': 8, '6': 6 }
 
+
+    // Make list of pairs
     const nums_weights_arr = Object.keys(nums_weights_map)
         .sort( (a, b) => a - b )
         .map( num => ({
@@ -215,13 +221,21 @@ function deleteAndEarn(nums) {
             weight: nums_weights_map[num],
         }) );
 
+    // nums_weights_arr = [
+    //  { num: '2', weight: 4 },
+    //  { num: '3', weight: 9 },
+    //  { num: '4', weight: 8 },
+    //  { num: '6', weight: 6 }
+    // ]
+
+
     let [prev_max, curr_max] = [0, 0];
     let prev_num = 0;
 
     for(const { num, weight } of nums_weights_arr) {
-        const new_max = (num - prev_num == 1)
-            ? Math.max(curr_max, prev_max + weight)
-            : curr_max + weight;
+        const new_max = (num - prev_num == 1) // Have collision?
+            ? Math.max(curr_max, prev_max + weight) // Yes
+            : curr_max + weight;                    // No
 
         prev_num = num;
         [prev_max, curr_max] = [curr_max, new_max];
