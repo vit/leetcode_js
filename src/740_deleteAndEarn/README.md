@@ -246,7 +246,6 @@ function deleteAndEarn(nums) {
         prev_num = num;
         [prev_max, curr_max] = [curr_max, new_max];
     }
-    // prev_num:   0 -> 2 -> 3 -> 4  -> 6
     // curr_max:   0 -> 4 -> 9 -> 12 -> 18
     // prev_max:   0 -> 0 -> 4 -> 9  -> 12
 
