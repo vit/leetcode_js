@@ -3,7 +3,7 @@
 [status: draft]
 
 
-## About Dynamic Programming
+## About dynamic programming
 
 The main idea of the __Dynamic Programming__ method: in order to get the __optimal__ answer for the __whole path__ we have to know the optimal answer about __a bit lesser subpath__ of it.
 
