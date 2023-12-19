@@ -186,7 +186,10 @@ weight:     4     9     8     6
 The maximal possible sum for the whole sequence is __18__.
 
 
-## Common recurrence relation
+## Common formula
+
+From the particular solutions above we ca derive the next recurrence relation:
+
 
 ```
 Have collision?
@@ -195,6 +198,8 @@ Have collision?
     no:
         new_max = max + weight
 ```
+
+Where the initial values of _max_ and _earlier_max_ are equal to 0;
 
 
 ## Code
