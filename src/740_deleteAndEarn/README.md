@@ -3,6 +3,13 @@
 [status: draft]
 
 
+## About Dynamic Programming
+
+The main idea of the __Dynamic Programming__ method: in order to get the __optimal__ answer for the __whole set__ we have to know the optimal answer about __a bit lesser subset__ of it.
+
+Our job is to transform the original problem formulation to the __right question__.
+
+
 ## Original formulation of the problem
 
 From leetcode.com:
@@ -31,10 +38,17 @@ Instead of the original list we can use pairs of unique numbers and sums of all 
 
 ```js
    num:    2    3    4    6
+ times:    2    3    2    1
+    *    2*2  3*3  2*4  1*6
 weight:    4    9    8    6
 ```
 
-Here we have everything we need to know.
+Nums and weights is everything we need to know.
+
+```js
+   num:    2    3    4    6
+weight:    4    9    8    6
+```
 
 
 ## Second formulation of the problem
@@ -45,157 +59,135 @@ Important constraint:
 
 * The distance between any two elements of the required subset can't be equal to 1: |num_i-num_j| <> 1.
 
-__Remark:__ It's clear that without this constraint the required subset would be equal to the whole set. The maximal sum would be a sum of all existing weights (4 + 9 + 8 + 6 = 27).
+__Remark:__ It's clear that without this constraint the required subset would be equal to the whole set. The maximal sum would be the sum of all existing weights (4 + 9 + 8 + 6 = 27).
 
 
 ## More intuition (#2)
 
-Let's make sure that the elements of the set are sorted (in ascending order, for example).
+Let's make sure that the elements of the set (sequence) are __ordered__.
 
 ```js
    num:    2    3    4    6
 weight:    4    9    8    6
 ```
 
-It's easier to check the distance between neighbours and tell if they must exclude each other.
+__Remark:__ It's obvious that the elements can __only confront with their immediate neighbours__, if the distance between them is too short.
 
 
-## The right question (third formulation of the problem) | Magic begins here
+## The right question (final formulation of the problem)
 
-* Given the sequence of pairs, what is the ___maximal possible sum for this whole sequence___ of four elements?
+This is the part where the real magic happens.
 
-```js
-   num:    2    3    4    6
-weight:    4    9    8    6
-   max:                 max_4=?
-```
+The right question we have to ask is:
 
-
-## Still asking questions...
-
-We don't know yet, __but__ if we knew the ___maximal possible sum for the left subsequence of three elements___ max_3, we could add it with 6 (weight of the fourth element).
-
+* Given the sequence of pairs (and the early mentioned constraint), ___what is the maximal possible sum for this whole sequence___ of four elements?
 
 ```js
-max_4 = max_3 + 6
+   num:     2     3     4     6
+weight:     4     9     8     6
+   max:                     max_4=?
 ```
 
-But what about max_3?
+And the right answer to this question is:
+
+* __We don't know yet, but__ if we knew the ___maximal possible sum for the left subsequence of three elements___ (max_3), we could add it with weight_4 (weight of the fourth element).
 
 ```js
-   num:    2    3    4
-weight:    4    9    8
-   max:            max_3=?
+   num:     2     3     4     6
+weight:     4     9     8     6
+   max:               max_3 max_4=?
 ```
 
-We don't know yet, __but__...
+```js
+max_4 = max_3 + weight_4
+```
 
+## Continue asking questions
+
+### Seeking max_3
+
+__The question:__  What is the maximal possible sum for the sequence of three elements?
+
+```js
+   num:     2     3     4
+weight:     4     9     8
+   max:   max_1 max_2 max_3=?
+```
 
 We __can't__ calculate max_3 as
 
-
 ```js
-max_3 = max_2 + 8
+max_3 = max_2 + weight_3
 ```
 
-because the numbers 3 and 4 mutually exclude each other.
+because the numbers 3 and 4 confront (mutually exclude each other). __One of them must be skipped__.
 
-
-Here we have two posibilities:
+So we have two posibilities:
 
 ```js
-max_3v1 = max_1 + 8     // with number 4, skip 3
-max_3v2 = max_2         // with number 3, skip 4
+max_3v1 = max_1 + weight_3  // with number 4, skip 3
+max_3v2 = max_2             // with number 3, skip 4
 ```
 
 Which do we have to use? -- The bigger one.
 
+__The answer:__ We don't know yet, but if we knew the ___maximal possible sum for the left subsequences of one and two elements___ (max_2 and max_1), we could calculate max_3 with the formula below.
+
 ```js
-max_3 = Max(max_1 + 8, max_2)
+max_3 = Max(max_1 + weight_3, max_2)
 ```
 
+### Seeking max_2
 
-But what about max_2?
+__The question:__  What is the maximal possible sum for the sequence of two elements?
 
 ```js
-   num:    2    3
-weight:    4    9
-   max:       max_2=?
+   num:     2     3
+weight:     4     9
+   max:   max_1 max_2=?
+```
+__The answer:__ We don't know yet, but if we knew the ___maximal possible sum for the left subsequences of one element___ (max_1), we could calculate max_2 with the formula below.
+
+```js
+max_2 = Max(weight_2, max_1)
 ```
 
+### Seeking max_1
+
+__The question:__  What is the maximal possible sum for the sequence of one element?
+
 ```js
-max_2 = Max(9, max_1)
+   num:     2
+weight:     4
+   max:   max_1=?
 ```
-
-
-
-But what about max_1?
+__The answer:__ Yes, finally we can answer right away! The maximal possible sum is equal to weight_1.
 
 ```js
-   num:    2
-weight:    4
-   max:  max_1=?
-```
-
-```js
-max_1 = 4
+max_1 = weight_1
 ```
 
 
 ## Retracing our steps (right direction of calculations)
 
 ```js
-max_1 = 4
+   num:     2     3     4     6
+weight:     4     9     8     6
+   max:
 ```
 
 ```js
-   num:    2
-weight:    4
-   max:    4
-```
-
-
-
-```js
-max_2 = Max(9, max_1) = Max(9, 4) = 9
+max_1 = weight_1 = 4
+max_2 = Max(weight_2, max_1) = Max(9, 4) = 9
+max_3 = Max(max_1 + weight_3, max_2) = Max(12, 9) = 12
+max_4 = max_3 + weight_4 = 12 + 6 = 18
 ```
 
 ```js
-   num:    2    3
-weight:    4    9
-   max:    4    9
+   num:     2     3     4     6
+weight:     4     9     8     6
+   max:      4     9     12    18
 ```
-
-
-
-
-
-
-```js
-max_3 = Max(max_1 + 8, max_2) = Max(4 + 8, 9) = 12
-```
-
-```js
-   num:    2    3    4
-weight:    4    9    8
-   max:    4    9    12
-```
-
-
-
-
-
-
-```js
-max_4 = max_3 + 6 = 12 + 6 = 18
-```
-
-```js
-   num:    2    3    4    6
-weight:    4    9    8    6
-   max:    4    9    12   18
-```
-
 
 ## The answer
 
@@ -238,6 +230,8 @@ function deleteAndEarn(nums) {
     return curr_max;
 }
 ```
+
+
 
 
 
