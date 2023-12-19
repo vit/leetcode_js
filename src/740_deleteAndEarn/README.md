@@ -114,7 +114,7 @@ max_3 = max_2 + weight_3
 
 because the numbers 3 and 4 confront (mutually exclude each other). __One of them must be skipped__.
 
-So we have two posibilities:
+So we have two possibilities:
 
 ```js
 max_3v1 = max_1 + weight_3  // with number 4, skip 3
