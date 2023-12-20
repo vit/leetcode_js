@@ -192,7 +192,7 @@ From the particular solutions above we ca derive the next recurrence relation:
 
 
 ```
-Have collision?
+Have a collision?
     yes:
         new_max = Max(earlier_max + weight, max)
     no:
@@ -244,7 +244,7 @@ function deleteAndEarn(nums) {
     // And only one previous num for condition check.
 
     for(const { num, weight } of nums_weights_arr) {
-        const new_max = (num - prev_num == 1) // Have collision?
+        const new_max = (num - prev_num == 1) // Have a collision?
             ? Math.max(curr_max, prev_max + weight) // Yes
             : curr_max + weight;                    // No
 
