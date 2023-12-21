@@ -7,7 +7,7 @@
 
 The basic idea of the __dynamic programming__ method: to get the optimal __answer__ for the __whole path__, we need to know the optimal answer about a __smaller subpath__ of it.
 
-Our task is to transform the original problem statement into a right question.
+Our job is to transform the original problem statement into a right question.
 
 
 ## Original problem statement
@@ -32,7 +32,7 @@ num:  3  3  2  2  3  4  4  6
 
 * If we decide to take the number 3 (and then remove all 2's and 4's), there is no reason not to take all the other occurrences of the number 3.
 
-So we __must__ take the sum of all 3 or not take 3 at all.
+So we __must__ take the sum of all 3's or not take 3 at all.
 
 Instead of the original list, we can use pairs of unique numbers and the sums of all their occurrences (let's call them __weights__).
 
@@ -47,13 +47,13 @@ weight:     9     4     8     6
 
 ## Second problem statement
 
-* Given a set of pairs (num, weight), find the subset with maximal sum of weights.
+* Given a set of pairs (num, weight), find the subset with maximum sum of weights.
 
-Important constraint:
+An important constraint:
 
 * The distance between any two elements of the desired subset cannot be equal to 1: |num_i-num_j| <> 1.
 
-__Note:__ It is clear that without this constraint, the desired subset would be equal to the whole set. The maximal sum would be equal to the sum of all existing weights (4 + 9 + 8 + 6 + 6 = 27).
+__Note:__ It is clear that without this constraint, the desired subset would be equal to the whole set. The maximum sum would be equal to the sum of all existing weights (4 + 9 + 8 + 6 + 6 = 27).
 
 
 ## Intuition #2
@@ -65,14 +65,15 @@ Let's make sure that the elements of the set (sequence) are __ordered__.
 weight:     4     9     8     6
 ```
 
-__Note:__ It is obvious that elements can only conflict __with their immediate neighbors__. In case the distance between them is too small.
+__Note:__ It is obvious that elements can only conflict __with their immediate neighbors__. If the distance between them is too small.
 
 
 ## Right question (final problem statement)
 
-The right question we have to ask is:
+The right question we need to ask is:
 
-* Given the sequence of pairs (and the early mentioned constraint), ___what is the maximal possible sum for this whole sequence___ of four elements?
+* Given the sequence of pairs (and the above constraint), ___what is the maximum sum of weights for it__?
+
 
 ```js
    num:     2     3     4     6
@@ -82,7 +83,7 @@ weight:     4     9     8     6
 
 And the right answer to this question is:
 
-* __We don't know yet, but__ if we knew the ___maximal possible sum for the left subsequence of three elements___ (max_3), we could add it with weight_4 (weight of the fourth element).
+* __We don't know yet, but__ if we knew the ___maximum sum for the left subsequence of three elements___ (max_3), we could add it with weight_4 (weight of the fourth element).
 
 ```js
    num:     2     3     4     6
@@ -94,11 +95,11 @@ weight:     4     9     8     6
 max_4 = max_3 + weight_4
 ```
 
-## Continue asking questions
+## Continue with questions
 
 ### max_3
 
-__The question:__  What is the maximal possible sum for the sequence of three elements?
+__The question:__  What is the maximum sum for a sequence of three elements?
 
 ```js
    num:     2     3     4
@@ -112,7 +113,7 @@ We __can't__ calculate max_3 as
 max_3 = max_2 + weight_3
 ```
 
-because the numbers 3 and 4 confront (mutually exclude each other). __One of them must be skipped__.
+because the numbers 3 and 4 are in conflict (mutually exclude each other). __One of them must be skipped__.
 
 So we have two possibilities:
 
@@ -121,9 +122,9 @@ max_3v1 = max_1 + weight_3  // with number 4, skip 3
 max_3v2 = max_2             // with number 3, skip 4
 ```
 
-Which do we have to use? -- The bigger one.
+Which should we use? -- The larger one.
 
-__The answer:__ We don't know yet, but if we knew the ___maximal possible sums for the left subsequences of one and two elements___ (max_2 and max_1), we could calculate max_3 with the formula below.
+__The answer:__ We don't know yet, but if we knew the ___maximum sums for the left subsequences of one and two elements___ (max_2 and max_1), we could calculate max_3 using the formula below.
 
 ```js
 max_3 = Max(max_1 + weight_3, max_2)
@@ -131,14 +132,14 @@ max_3 = Max(max_1 + weight_3, max_2)
 
 ### max_2
 
-__The question:__  What is the maximal possible sum for the sequence of two elements?
+__The question:__  What is the maximum sum for the sequence of two elements?
 
 ```js
    num:     2     3
 weight:     4     9
    max:   max_1 max_2=?
 ```
-__The answer:__ We don't know yet, but if we knew the ___maximal possible sum for the left subsequences of one element___ (max_1), we could calculate max_2 with the formula below.
+__The answer:__ We don't know yet, but if we knew the ___maximum sum for the left subsequences of one element___ (max_1), we could calculate max_2 using the formula below.
 
 ```js
 max_2 = Max(weight_2, max_1)
@@ -146,21 +147,21 @@ max_2 = Max(weight_2, max_1)
 
 ### max_1
 
-__The question:__  What is the maximal possible sum for the sequence of one element?
+__The question:__  What is the maximum sum for the sequence of one element?
 
 ```js
    num:     2
 weight:     4
    max:   max_1=?
 ```
-__The answer:__ Yes, finally we can answer right away! The maximal possible sum is equal to weight_1.
+__The answer:__ Yes, finally we can answer right away! The maximum sum is equal to weight_1.
 
 ```js
 max_1 = weight_1
 ```
 
 
-## Retracing our steps (right direction of calculations)
+## Retracing our steps (right direction of calculation)
 
 ```js
    num:     2     3     4     6
@@ -183,23 +184,23 @@ weight:     4     9     8     6
 
 ## Answer
 
-The maximal possible sum for the whole sequence is __18__.
+The maximum sum for the whole sequence is __18__.
 
 
 ## Common formula
 
-From the particular solutions above we ca derive the next recurrence relation:
+From the particular solutions above we can derive the next recurrence relation:
 
 
 ```
 Have a collision?
     yes:
-        new_max = Max(earlier_max + weight, max)
+        new_max = Max(previous_max + weight, max)
     no:
         new_max = max + weight
 ```
 
-Where the initial values of _max_ and _earlier_max_ are equal to 0;
+Where the initial values of _max_ and _previous_max_ are equal to 0;
 
 
 ## Code
@@ -232,7 +233,9 @@ function deleteAndEarn(nums) {
     // And only one previous num for condition check.
 
     for(const [num, weight] of nw_sorted) {
-        const new_max = (num - prev_num == 1) // Have a collision?
+        const collision = num - prev_num == 1;
+
+        const new_max = collision // Have a collision?
             ? Math.max(curr_max, prev_max + weight) // Yes
             : curr_max + weight;                    // No
 

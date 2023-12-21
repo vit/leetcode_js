@@ -13,7 +13,9 @@ function deleteAndEarn(nums) {
     let prev_num = 0;
 
     for(const [num, weight] of nw_sorted) {
-        const new_max = (num - prev_num == 1)
+        const collision = num - prev_num == 1;
+
+        const new_max = collision
             ? Math.max(curr_max, prev_max + weight)
             : curr_max + weight;
 
