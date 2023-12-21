@@ -1,8 +1,5 @@
 # 740. Delete and Earn | Solution
 
-[status: draft]
-
-
 ## About dynamic programming
 
 The basic idea of the __dynamic programming__ method: to get the optimal __answer__ for the __whole path__, we need to know the optimal answer about a __smaller subpath__ of it.
