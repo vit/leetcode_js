@@ -1,27 +1,18 @@
 
 function deleteAndEarn(nums) {
 
-    const nums_weights_map = {};
+    const nw_map = {};
 
-    for(const num of nums) {
-        nums_weights_map[num] = nums_weights_map[num] || 0;
-        nums_weights_map[num] += num;
-    }
+    for(const num of nums)
+        nw_map[num] = (nw_map[num] || 0) + num;
 
-
-    const nums_weights_arr = Object.keys(nums_weights_map)
-        // .map(Number)
-        .sort( (a, b) => a - b )
-        .map( num => ({
-            num,
-            weight: nums_weights_map[num],
-        }) );
-
+    const nw_sorted = Object.entries(nw_map)
+        .sort((a, b) => a[0] - b[0]);
 
     let [prev_max, curr_max] = [0, 0];
     let prev_num = 0;
 
-    for(const { num, weight } of nums_weights_arr) {
+    for(const [num, weight] of nw_sorted) {
         const new_max = (num - prev_num == 1)
             ? Math.max(curr_max, prev_max + weight)
             : curr_max + weight;

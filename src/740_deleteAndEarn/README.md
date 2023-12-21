@@ -5,12 +5,12 @@
 
 ## About dynamic programming
 
-The main idea of the __Dynamic Programming__ method: in order to get the __optimal__ answer for the __whole path__ we have to know the optimal answer about __a bit lesser subpath__ of it.
+The basic idea of the __dynamic programming__ method: to get the optimal __answer__ for the __whole path__, we need to know the optimal answer about a __smaller subpath__ of it.
 
-Our job is to transform the original problem formulation to the __right question__.
+Our task is to transform the original problem statement into a right question.
 
 
-## Original formulation of the problem
+## Original problem statement
 
 From leetcode.com:
 
@@ -28,16 +28,16 @@ num:  3  3  2  2  3  4  4  6
 ```
 
 
-## Some intuition (#1)
+## Intuition #1
 
-* When we decide to pick the number 3 (and thereafter delete all 2's and 4's), there are no reasons left not to take all other occurrences of 3.
+* If we decide to take the number 3 (and then remove all 2's and 4's), there is no reason not to take all the other occurrences of the number 3.
 
-So we __must__ take the sum of all 3's __or__ do not take 3 at all.
+So we __must__ take the sum of all 3 or not take 3 at all.
 
-Instead of the original list we can use pairs of unique numbers and sums of all their occurrences (let's call them _weights_).
+Instead of the original list, we can use pairs of unique numbers and the sums of all their occurrences (let's call them __weights__).
 
-Nums and weights is everything we need to know.
-First -- to check collisions between them, second -- to sum them up.
+The numbers and weights are all we need to know.
+The first -- to check for collisions between them, the second -- to sum them up.
 
 ```js
    num:     3     2     4     6
@@ -45,18 +45,18 @@ weight:     9     4     8     6
 ```
 
 
-## Second formulation of the problem
+## Second problem statement
 
-* Given the set of pairs (num, weight), find the subset with maximal sum of weights.
+* Given a set of pairs (num, weight), find the subset with maximal sum of weights.
 
 Important constraint:
 
-* The distance between any two elements of the required subset can't be equal to 1: |num_i-num_j| <> 1.
+* The distance between any two elements of the desired subset cannot be equal to 1: |num_i-num_j| <> 1.
 
-__Remark:__ It's clear that without this constraint the required subset would be equal to the whole set. The maximal sum would be the sum of all existing weights (4 + 9 + 8 + 6 = 27).
+__Note:__ It is clear that without this constraint, the desired subset would be equal to the whole set. The maximal sum would be equal to the sum of all existing weights (4 + 9 + 8 + 6 + 6 = 27).
 
 
-## More intuition (#2)
+## Intuition #2
 
 Let's make sure that the elements of the set (sequence) are __ordered__.
 
@@ -65,10 +65,10 @@ Let's make sure that the elements of the set (sequence) are __ordered__.
 weight:     4     9     8     6
 ```
 
-__Remark:__ It's obvious that the elements can __only confront with their immediate neighbours__, if the distance between them is too short.
+__Note:__ It is obvious that elements can only conflict __with their immediate neighbors__. In case the distance between them is too small.
 
 
-## Right question (final formulation of the problem)
+## Right question (final problem statement)
 
 The right question we have to ask is:
 
@@ -96,7 +96,7 @@ max_4 = max_3 + weight_4
 
 ## Continue asking questions
 
-### Seeking max_3
+### max_3
 
 __The question:__  What is the maximal possible sum for the sequence of three elements?
 
@@ -129,7 +129,7 @@ __The answer:__ We don't know yet, but if we knew the ___maximal possible sums f
 max_3 = Max(max_1 + weight_3, max_2)
 ```
 
-### Seeking max_2
+### max_2
 
 __The question:__  What is the maximal possible sum for the sequence of two elements?
 
@@ -144,7 +144,7 @@ __The answer:__ We don't know yet, but if we knew the ___maximal possible sum fo
 max_2 = Max(weight_2, max_1)
 ```
 
-### Seeking max_1
+### max_1
 
 __The question:__  What is the maximal possible sum for the sequence of one element?
 
@@ -211,39 +211,27 @@ function deleteAndEarn(nums) {
 
 
     // Calculate weights
-    const nums_weights_map = {};
-
-    for(const num of nums) {
-        nums_weights_map[num] = nums_weights_map[num] || 0;
-        nums_weights_map[num] += num;
-    }
-    // nums_weights_map = { '2': 4, '3': 9, '4': 8, '6': 6 }
+    const nw_map = {};
+    for(const num of nums)
+        nw_map[num] = (nw_map[num] || 0) + num;
+    // nw_map = { '2': 4, '3': 9, '4': 8, '6': 6 }
 
 
     // Make ordered list of pairs
-    const nums_weights_arr = Object.keys(nums_weights_map)
-        .sort( (a, b) => a - b )
-        .map( num => ({
-            num,
-            weight: nums_weights_map[num],
-        }) );
-    // nums_weights_arr = [
-    //  { num: '2', weight: 4 },
-    //  { num: '3', weight: 9 },
-    //  { num: '4', weight: 8 },
-    //  { num: '6', weight: 6 }
-    // ]
+    const nw_sorted = Object.entries(nw_map)
+        .sort((a, b) => a[0] - b[0]);
+    // nw_sorted = [ [ 2, 4 ], [ 3, 9 ], [ 4, 8 ], [ 6, 6 ] ]
 
 
     // We implicitly prepend the sequence
     // with few zero values
     let [prev_max, curr_max] = [0, 0];
     let prev_num = 0;
-    // We don't use the array to store all previous
-    // max's, because we only need two of them.
+    // We don't store all previous max's in an array,
+    // because we only need two of them.
     // And only one previous num for condition check.
 
-    for(const { num, weight } of nums_weights_arr) {
+    for(const [num, weight] of nw_sorted) {
         const new_max = (num - prev_num == 1) // Have a collision?
             ? Math.max(curr_max, prev_max + weight) // Yes
             : curr_max + weight;                    // No
