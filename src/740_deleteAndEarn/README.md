@@ -113,13 +113,13 @@ We __can't__ calculate max_3 as
 max_3 = max_2 + weight_3
 ```
 
-because the numbers 3 and 4 are in conflict (mutually exclude each other). __One of them must be skipped__.
+because of the constraint (the numbers 3 and 4 are mutually exclusive). __One of them must be skipped__.
 
 So we have two possibilities:
 
 ```js
-max_3v1 = max_1 + weight_3  // with number 4, skip 3
-max_3v2 = max_2             // with number 3, skip 4
+max_3v1 = max_1 + weight_3  // use number 4, skip 3
+max_3v2 = max_2             // use number 3, skip 4
 ```
 
 Which should we use? -- The larger one.
@@ -139,7 +139,7 @@ __The question:__  What is the maximum sum for the sequence of two elements?
 weight:     4     9
    max:   max_1 max_2=?
 ```
-__The answer:__ We don't know yet, but if we knew the ___maximum sum for the left subsequences of one element___ (max_1), we could calculate max_2 using the formula below.
+__The answer:__ We don't know yet, but if we knew the ___maximum sum for the left subsequence of one element___ (max_1), we could calculate max_2 using the formula below.
 
 ```js
 max_2 = Max(weight_2, max_1)
