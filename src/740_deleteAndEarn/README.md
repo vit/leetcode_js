@@ -4,7 +4,7 @@
 
 The basic idea of the __dynamic programming__ method: to get the optimal __answer__ for the __whole path__, we need to know the optimal answer about a __smaller subpath__ of it.
 
-Our job is to transform the original problem statement into a right question.
+Our task is to transform the original problem statement into a right question.
 
 
 ## Original problem statement
@@ -197,7 +197,7 @@ Have a collision?
         new_max = max + weight
 ```
 
-Where the initial values of _max_ and _previous_max_ are equal to 0;
+Where the initial values of _max_ and _previous_max_ are equal to 0.
 
 
 ## Code
@@ -227,7 +227,7 @@ function deleteAndEarn(nums) {
     let prev_num = 0;
     // We don't store all previous max's in an array,
     // because we only need two of them.
-    // And only one previous num for condition check.
+    // And only one previous num for collision check.
 
     for(const [num, weight] of nw_sorted) {
         const collision = num - prev_num == 1;
