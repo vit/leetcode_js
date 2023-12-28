@@ -9,7 +9,7 @@ function maximalSquare(matrix) {
                     matrix[i-1][j],
                     matrix[i][j-1]
                 );
-            if(maxEdge < matrix[i][j]) maxEdge = matrix[i][j];
+            maxEdge = Math.max(maxEdge, matrix[i][j]);
         }
     return maxEdge*maxEdge;
 
