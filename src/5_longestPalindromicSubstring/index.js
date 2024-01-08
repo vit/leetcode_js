@@ -1,3 +1,31 @@
+
+function longestPalindrome(s) {
+    const n = s.length;
+    const is_p = Array(n).fill().map(_ => Array(n).fill(false));
+
+    let max = [0, 0];
+
+    for(let i=n-1; i>=0; i--) {
+        for(let j=i; j<n; j++) {
+            if(i==j) {
+                is_p[i][i] = true;
+            } else if(s[i] == s[j] && j<=i+2) {
+                is_p[i][j] = true;
+            } else if(s[i] == s[j] && is_p[i+1][j-1]) {
+                is_p[i][j] = true;
+            }
+            if(is_p[i][j]) {
+                if(max[1] < (j-i))
+                    max = [i, j-i];
+            }
+        }
+    }
+    return s.substring(max[0], max[0]+max[1]+1);
+};
+
+module.exports = longestPalindrome;
+
+/*
 function maxStr(...lst) {
     let [maxLen, maxS] = [0, ""];
     for(let str of lst)
@@ -21,10 +49,7 @@ function longestPalindrome(s) {
         maxSubstr = maxStr(maxSubstr, find(i, 0), find(i, 1));
     return maxSubstr;
 };
-
-module.exports = longestPalindrome;
-
-
+*/
 
 
 
