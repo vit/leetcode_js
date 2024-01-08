@@ -23,6 +23,12 @@ describe("editDistance", () => {
     ).toBe(2);
   });
 
+  test('word1 = "", word2 = "a" gives 1', () => {
+    expect(
+      editDistance("", "a")
+    ).toBe(1);
+  });
+
 
 });
 
