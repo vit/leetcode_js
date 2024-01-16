@@ -3,7 +3,7 @@
 My solutions for [LeetCode](https://leetcode.com/) problems.
 
 
-## Solutions with descriptions
+## Solutions with explanation
 
 
 ### Dinamic programming
