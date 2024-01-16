@@ -17,6 +17,8 @@ From leetcode.com:
 > 
 > Return the maximum number of points you can earn by applying the above operation some number of times.
 
+https://leetcode.com/problems/delete-and-earn/description/
+
 
 ## Example of input data
 
