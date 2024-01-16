@@ -1,24 +1,17 @@
-const longestPalindrome = require('../../src/5_longestPalindromicSubstring/index')
+const  uniquePaths = require('../../src/62_uniquePaths/index')
 
 
-test('1 gives 1', () => {
+test('3, 7 gives 28', () => {
   expect(
-    1
-  ).toBe(1);
+    uniquePaths(3, 7)
+  ).toBe(28);
 });
 
-/*
-test('2 gives 2', () => {
+test('3, 2 gives 3', () => {
   expect(
-    longestPalindrome(2)
-  ).toBe(2);
-});
-
-test('3 gives 3', () => {
-  expect(
-    longestPalindrome(3)
+    uniquePaths(3, 2)
   ).toBe(3);
 });
-*/
+
 
 
