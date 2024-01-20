@@ -6,7 +6,7 @@ My solutions for [LeetCode](https://leetcode.com/) problems.
 ## Solutions with explanation
 
 
-### Dinamic programming
+### Dynamic programming
 
 [740. Delete And Earn](src/740_deleteAndEarn)
 
